@@ -8,7 +8,7 @@ import {
 import * as wn from "webnative"
 import { FilePath } from "webnative/path"
 import AuthRoute from "./components/AuthRoute"
-// import Editor from "./pages/Editor"
+import Editor from "./pages/Editor"
 import Login from "./pages/Login"
 import Posts from "./pages/Posts"
 import { Feed } from "./utils/feed"
@@ -65,7 +65,7 @@ function App() {
       <Switch>
         <Redirect from="/" to="/posts" exact />
         <AuthRoute path="/posts" component={Posts} exact feed={feed} />
-        {/* <AuthRoute path="/posts/new" component={Editor} exact feed={feed} /> */}
+        <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
         <Route path="/login" component={Login} />
       </Switch>
     </Router>

@@ -7,8 +7,8 @@ const Navigation = () => {
   const { logout } = useWebnative()
 
   return (
-    <nav className="min-h-full flex flex-col">
-      <h1 className="text-xl">Blog</h1>
+    <nav className="navigation">
+      <h1>Blog</h1>
 
       <ul>
         <li>

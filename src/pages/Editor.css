@@ -1,0 +1,15 @@
+.editor {
+    & label {
+        display: block;
+    }
+
+    & form {
+        width: 100%;
+        max-width: 32rem;
+
+        & textarea {
+            min-height: 6rem;
+            width: 100%;
+        }
+    }
+}
