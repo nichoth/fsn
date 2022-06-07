@@ -123,7 +123,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
           </label>
 
           <div>
-            <button className="btn">Publish</button>
+            <button className="btn">Save</button>
           </div>
         </form>
       </section>
