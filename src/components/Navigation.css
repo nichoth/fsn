@@ -1,0 +1,14 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    & ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    & button {
+        min-width: 8rem;
+    }
+}

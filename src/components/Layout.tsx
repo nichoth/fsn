@@ -1,5 +1,6 @@
 import React from "react"
 import Navigation from "./Navigation"
+import './Layout.css'
 
 // interface Props {
 //   children?: ReactChild[]
@@ -7,11 +8,11 @@ import Navigation from "./Navigation"
 
 const Layout = ({ children }) => {
   return (
-    <div className="flex flex-auto min-h-screen">
-      <div className="w-1/6 p-4 br">
-        <Navigation />
-      </div>
-      <main className="w-5/6 p-4 bg-base-100">{children}</main>
+    <div className="layout">
+      <Navigation />
+      <main>
+        {children}
+      </main>
     </div>
   )
 }
