@@ -4,6 +4,13 @@ nav {
     align-items: center;
     border-bottom: 1px solid black;
 
+    --tw-gradient-from: #f65a8e;
+    --tw-gradient-to: #7e22ce;
+    --tw-gradient-stops:
+        var(--tw-gradient-from),
+        var(--tw-gradient-to, rgb(246 90 142/0));
+
+
 
     & ul {
         list-style: none;
@@ -12,5 +19,20 @@ nav {
 
     & button {
         min-width: 8rem;
+        /* background-color: transparent; */
+        border: 3px solid;
+        border-image: linear-gradient(to right, var(--tw-gradient-from), var(--tw-gradient-to)) 1;
+        padding: 0.5rem;
+        font-weight: 900;
+        font-size: 1.2rem;
+
+        &:hover {
+            opacity: 0.4;
+        }
+
+        color: transparent;
+        background-image: linear-gradient(to right, var(--tw-gradient-stops));
+        -webkit-background-clip: text;
+        background-clip: text;
     }
 }
