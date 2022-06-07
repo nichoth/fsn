@@ -15,6 +15,9 @@ import { Feed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
 import './App.css'
 
+// import TextInput from './components/text-input'
+// import Button from './components/button'
+
 function App() {
   const { fs, username } = useWebnative()
   const [feed, setFeed] = useState<Feed | null>(null)
