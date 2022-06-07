@@ -2,31 +2,7 @@ body {
     background-color: pink;
 }
 
-code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-        monospace;
-}
-
-form, p, h1, h2, .form-instructions {
+p, h1, h2 {
     max-width: 40rem;
     margin: 0 auto;
-}
-
-.form-instructions {
-    list-style: none;
-}
-
-form {
-    margin-top: 2rem;
-    border: 1px solid;
-    background-color: whitesmoke;
-    padding: 1rem;
-}
-
-h1 {
-    margin-bottom: 2rem;
-}
-
-h2 {
-    margin-bottom: 1rem;
 }

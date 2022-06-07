@@ -1,5 +1,4 @@
 import test from "tape"
-// import { passwordIsOk } from "../src/util/validation"
 import { passwordIsOk } from "../src/util/validation.js"
 
 
