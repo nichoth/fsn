@@ -1,0 +1,18 @@
+button.login {
+    height: 4rem;
+    min-width: 18rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1rem;
+    border-radius: 8px;
+    border: 1px solid;
+
+    & svg {
+        width: fit-content;
+    }
+
+    & span {
+        font-size: 1rem;
+    }
+}

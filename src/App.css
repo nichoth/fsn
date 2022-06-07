@@ -2,9 +2,13 @@ body {
     background-color: pink;
 }
 
+button {
+  cursor: pointer;
+}
+
 p, h1, h2 {
     max-width: 40rem;
-    margin: 0 auto;
+    /* margin: 0 auto; */
 }
 
 
