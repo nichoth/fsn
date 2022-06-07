@@ -13,6 +13,7 @@ import Login from "./pages/Login"
 import Posts from "./pages/Posts"
 import { Feed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
+import './App.css'
 
 function App() {
   const { fs, username } = useWebnative()
