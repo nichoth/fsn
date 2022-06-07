@@ -46,7 +46,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   return (
     <Layout>
       <header>
-        <h1>Posts</h1>
+        <h2>Posts</h2>
         <Link to="/posts/new">
           + New
         </Link>
@@ -72,9 +72,8 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
                 }
               </div>
               <div>{item.title}</div>
-              <div>Draft</div>
+              <div>{item.status || <em>none</em>}</div>
               <div>{item.date_published || <em>n/a</em>}</div>
-              {/* <div className="table-cell py-2 px-4">{item.date_published}</div> */}
             </li>)
           })}
         </ol>

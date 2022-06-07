@@ -8,6 +8,7 @@ export interface Item {
   url?: string
   external_url?: string
   title?: string
+  status?: string
   content_html?: string
   content_text?: string
   summary?: string

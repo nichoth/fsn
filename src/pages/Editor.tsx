@@ -7,6 +7,7 @@ import { Feed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
 import { getId } from '../utils/id'
+import { useHistory } from 'react-router-dom';
 import './Editor.css'
 
 type EditorProps = {
@@ -18,6 +19,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
 
   const [resolving, setResolving] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const history = useHistory();
 
   interface FeedData {
     title: string
@@ -29,6 +31,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
 
     const tempValue = {
       image: imgName,
+      status: 'draft',
       content_text: data.content,
       title: data.title,
     }
@@ -78,6 +81,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
       })
       .then(update => {
         console.log('updated feed', update)
+        history.push('/')
         setResolving(false)
       })
       .catch(err => {
