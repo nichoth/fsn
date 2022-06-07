@@ -12,3 +12,9 @@ This will start the [vite](https://vitejs.dev/) process.
 ```
 npm start
 ```
+
+## build
+Build a deployable web app
+```
+npm run build
+```
