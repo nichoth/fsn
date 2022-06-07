@@ -24,3 +24,8 @@ main {
   max-width: 40rem;
   margin: 0 auto;
 }
+
+label {
+  width: fit-content;
+  cursor: pointer;
+}

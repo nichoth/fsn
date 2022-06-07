@@ -1,6 +1,36 @@
+.body-input {
+    width: 100%;
+}
+
 .editor {
     & label {
         display: block;
+    }
+
+    /* cursor on the file input button */
+    & input[type=file], /* FF, IE7+, chrome (except button) */
+    & input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+        cursor: pointer; 
+    }
+
+    & .file-input {
+        /* border: 1px solid #ccc;
+        display: inline-block;
+        padding: 6px 12px; */
+        cursor: pointer;
+        margin-left: 1rem;
+    }
+
+    & .preview-image {
+        width: 10rem;
+        height: 10rem;
+        margin-bottom: 1rem;
+
+        & img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
     }
 
     & form {

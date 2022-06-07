@@ -4,10 +4,10 @@ import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
 import { FilePath } from "webnative/path"
 import { Feed } from "../utils/feed"
-import './Editor.css'
-
+import Button from '../components/button'
 import TextInput from '../components/text-input'
-
+import { getId } from '../utils/id'
+import './Editor.css'
 
 type EditorProps = {
   feed: Feed
@@ -16,6 +16,7 @@ type EditorProps = {
 const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
   const { fs } = useWebnative()
 
+  const [resolving, setResolving] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   interface FeedData {
@@ -23,26 +24,21 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
     content: string
   }
 
-  function updateFeed(data: FeedData, imgName: string) {
+  async function updateFeed(data: FeedData, imgName: string) {
     if (!fs || !fs.appPath) return
 
-    feed.addItem({
-      // TODO -- how to get id?
-      // could take the hash of the post (without id attribute), then
-      //   add `id: <hash>`
-      id: "1",
+    const tempValue = {
       image: imgName,
       content_text: data.content,
       title: data.title,
-    })
+    }
 
-    const feedPath = fs.appPath(wn.path.file("feed.json"))
-    return (
-      fs
-        .write(feedPath as FilePath, feed.toString())
-        // TODO -- should show resolving status while we publish
-        .then(() => fs.publish())
-    )
+    const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
+    feed.addItem(msgValue)
+
+    const feedPath = fs.appPath(wn.path.file('feed.json'))
+    return fs.write(feedPath as FilePath, feed.toString())
+      .then(() => fs.publish())
   }
 
   // -----------------------------------------------------------------------
@@ -57,7 +53,9 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
 
   const submitter = (ev: BaseSyntheticEvent) => {
     if (!(fs && fs.appPath)) return
+    setResolving(true)
     ev.preventDefault()
+
     const image: File = ev.target.elements.image.files[0]
     console.log("**image", image)
 
@@ -73,9 +71,19 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
     // first save the image,
     // then update the feed and save the feed
     // (this is a two step process, not atomic)
-    fs.write(fs.appPath(wn.path.file(fileName)), image).then(() =>
-      updateFeed(data, fileName)
-    )
+    fs.write(fs.appPath(wn.path.file(fileName)), image)
+      .then(() => {
+        console.log('fs wrote image')
+        return updateFeed(data, fileName)
+      })
+      .then(update => {
+        console.log('updated feed', update)
+        setResolving(false)
+      })
+      .catch(err => {
+        console.log('errrrrrrrrrr', err)
+        setResolving(false)
+      })
   }
 
   function changer(ev: BaseSyntheticEvent) {
@@ -106,6 +114,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
             Image
             <input
               type="file"
+              required={true}
               onChange={changer}
               className="form-input"
               name={"image"}
@@ -114,7 +123,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
 
           <TextInput name="title" displayName="title" required={true} />
 
-          <label>
+          <label className="body-input">
             Body
             <textarea
               required={true}
@@ -123,7 +132,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
           </label>
 
           <div>
-            <button className="btn">Save</button>
+            <Button type="submit" isSpinning={resolving}>Save</Button>
           </div>
         </form>
       </section>
