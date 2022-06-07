@@ -5,7 +5,8 @@
 
 .post-section {
     display: table;
-    width: 75vw;
+    /* width: 75vw; */
+    width: 100%;
     padding: 1rem 0;
     background-color: whitesmoke;
 

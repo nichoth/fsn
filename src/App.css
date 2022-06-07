@@ -19,3 +19,8 @@ button {
 p, h1, h2 {
     max-width: 40rem;
 }
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+}

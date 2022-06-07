@@ -47,7 +47,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
     <Layout>
       <header>
         <h1>Posts</h1>
-        <Link to="/posts/new" className="justify-end new">
+        <Link to="/posts/new">
           + New
         </Link>
       </header>
@@ -58,7 +58,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
             <div>Image</div>
             <div>Title</div>
             <div>Status</div>
-            <div>Last Publish</div>
+            <div>Last Published</div>
           </li>
 
           {feed?.items.map((item, i) => {
@@ -73,7 +73,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
               </div>
               <div>{item.title}</div>
               <div>Draft</div>
-              <div>{item.date_published || 'date here'}</div>
+              <div>{item.date_published || <em>n/a</em>}</div>
               {/* <div className="table-cell py-2 px-4">{item.date_published}</div> */}
             </li>)
           })}
