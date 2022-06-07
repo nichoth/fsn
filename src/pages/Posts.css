@@ -3,12 +3,55 @@
     line-height: 1.75rem;
 }
 
-.post-list {
+.post-section {
+    display: table;
+    width: 75vw;
+    padding: 1rem 0;
     background-color: whitesmoke;
+
+    & th {
+        border-bottom: 1px solid;
+        padding-bottom: 0.2rem;
+    }
+
+    & td {
+        text-align: center;
+    }
+}
+
+.post-list {
     min-height: 4rem;
+    padding: 0;
+    border-collapse: collapse;
+
+    display: table-row-group;
+    /* width: 75vw; */
+
+    & li > div {
+        width: 6rem;
+        text-align: center;
+    }
 
     & li:first-child {
         display: flex;
+        border-bottom: 1px solid;
         justify-content: space-around;
+        margin-bottom: 0.2rem;
+        padding-bottom: 0.2rem;
+    }
+
+    & .table-row {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    & .img-cell {
+        padding-top: 0.4rem;
+
+        & img {
+            max-width: 75%;
+            object-fit: cover;
+        }
     }
 }

@@ -46,21 +46,24 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   return (
     <Layout>
       <header>
-        <h1 className="text-xl">Posts</h1>
+        <h1>Posts</h1>
         <Link to="/posts/new" className="justify-end new">
           + New
         </Link>
       </header>
 
-      <section>
+      <section className="post-section">
         <ol className="post-list">
           <li>
+            <div>Image</div>
             <div>Title</div>
             <div>Status</div>
-            <div>Last Update</div>
+            <div>Last Publish</div>
           </li>
 
           {feed?.items.map((item, i) => {
+            console.log('item', item)
+
             return (<li key={i} className="table-row bg-white">
               <div className="table-cell img-cell">
                 {item.image ?
@@ -68,12 +71,12 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
                   null
                 }
               </div>
-              <div className="table-cell py-2 px-4">{item.title}</div>
-              <div className="table-cell py-2 px-4">Draft</div>
-              <div className="table-cell py-2 px-4">{item.date_published}</div>
+              <div>{item.title}</div>
+              <div>Draft</div>
+              <div>{item.date_published || 'date here'}</div>
+              {/* <div className="table-cell py-2 px-4">{item.date_published}</div> */}
             </li>)
-          })
-          }
+          })}
         </ol>
       </section>
     </Layout>
@@ -81,3 +84,38 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
 }
 
 export default Posts
+
+
+
+
+
+
+
+
+
+        // <table className="post-list">
+        //   <tr>
+        //       <th scope="col">Image</th>
+        //       <th scope="col">Title</th>
+        //       <th scope="col">Status</th>
+        //       <th scope="col">Last Update</th>
+        //   </tr>
+
+        //   {feed?.items.map((item, i) => {
+        //     return (<tr key={i}>
+        //       {item.image ?
+        //         (<td className="img-cell">
+        //           <img src={images[i]} />
+        //         </td>) :
+        //         null
+        //       }
+        //       <td>{item.title}</td>
+        //       <td>Draft</td>
+        //       <td>{item.date_published || 'date here'}</td>
+        //     </tr>
+        //   )
+        //   })}
+        // </table>
+
+
+
