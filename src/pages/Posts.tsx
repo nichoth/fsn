@@ -31,7 +31,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   useEffect(() => {
-    // use promise.all
     // get all the image URLs,
     // then set state
     if (!feed) return

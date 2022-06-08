@@ -90,7 +90,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
       })
   }
 
-  function changer(ev: BaseSyntheticEvent) {
+  function changer (ev: BaseSyntheticEvent) {
     const image: File = ev.target.files[0]
     console.log("*img*", image)
     const url = URL.createObjectURL(image)
@@ -103,7 +103,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
   return (
     <Layout>
       <header>
-        <h1 className="text-xl flex-grow">New Post</h1>
+        <h2>New Post</h2>
       </header>
 
       <section className="editor">
@@ -115,12 +115,12 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
           ) : null}
 
           <label>
-            Image
+            {'Image '}
             <input
               type="file"
               required={true}
               onChange={changer}
-              className="form-input"
+              className="file-input"
               name={"image"}
             />
           </label>

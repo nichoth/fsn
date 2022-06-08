@@ -1,5 +1,5 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 import { useWebnative } from "../context/webnative"
 import './Navigation.css'
 
@@ -12,7 +12,11 @@ const Navigation = () => {
 
       <ul>
         <li>
-          <Link to="/posts">Posts</Link>
+          <NavLink to="/posts">Posts</NavLink>
+        </li>
+
+        <li>
+          <NavLink to="/whoami">who am i?</NavLink>
         </li>
       </ul>
 

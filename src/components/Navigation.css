@@ -13,6 +13,16 @@ nav {
     & ul {
         list-style: none;
         padding: 0;
+        display: flex;
+        width: 50%;
+        justify-content: space-around;
+
+        & a {
+            text-decoration: none;
+            &.active {
+                border-bottom: 3px solid;
+            }
+        }
     }
 
     & button {

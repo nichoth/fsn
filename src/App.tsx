@@ -13,10 +13,9 @@ import Login from "./pages/Login"
 import Posts from "./pages/Posts"
 import { Feed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
+import Whoami from "./pages/Whoami"
 import './App.css'
 
-// import TextInput from './components/text-input'
-// import Button from './components/button'
 
 function App() {
   const { fs, username } = useWebnative()
@@ -67,6 +66,7 @@ function App() {
         <AuthRoute path="/posts" component={Posts} exact feed={feed} />
         <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
         <Route path="/login" component={Login} />
+        <Route path="/whoami" component={Whoami} />
       </Switch>
     </Router>
   )

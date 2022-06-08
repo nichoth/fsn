@@ -12,6 +12,12 @@ interface Props {
 
 const AuthRoute = ({ component: Component, ...rest }: Props) => {
   const { state } = useWebnative()
+
+  console.log('*state*', state)
+
+  // here, return either `Component` for authd users,
+  // or a *non authenticated view* of the site
+
   return (
     <Route
       {...rest}
