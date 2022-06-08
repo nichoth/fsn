@@ -101,7 +101,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
   // -----------------------------------------------------------------------
 
   return (
-    <Layout>
+    <Layout className="editor">
       <header>
         <h2>New Post</h2>
       </header>

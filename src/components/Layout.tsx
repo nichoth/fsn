@@ -6,9 +6,11 @@ import './Layout.css'
 //   children?: ReactChild[]
 // }
 
-const Layout = ({ children }) => {
+const Layout = ({ children, className }) => {
+  const cl = 'layout' + (className ? (' ' + className) : '')
+
   return (
-    <div className="layout">
+    <div className={cl}>
       <Navigation />
       <main>
         {children}

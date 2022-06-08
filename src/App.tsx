@@ -11,14 +11,16 @@ import AuthRoute from "./components/AuthRoute"
 import Editor from "./pages/Editor"
 import Login from "./pages/Login"
 import Posts from "./pages/Posts"
+import Whoami from "./pages/Whoami"
 import { Feed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
-import Whoami from "./pages/Whoami"
 import './App.css'
 
 
 function App() {
-  const { fs, username } = useWebnative()
+  const wnCtx = useWebnative()
+  const { fs, username } = wnCtx
+  // const { fs, username } = useWebnative()
   const [feed, setFeed] = useState<Feed | null>(null)
 
   useEffect(() => {
@@ -66,7 +68,7 @@ function App() {
         <AuthRoute path="/posts" component={Posts} exact feed={feed} />
         <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
         <Route path="/login" component={Login} />
-        <Route path="/whoami" component={Whoami} />
+        <Route path="/whoami" component={Whoami} wnCtx={wnCtx} />
       </Switch>
     </Router>
   )
