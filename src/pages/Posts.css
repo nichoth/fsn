@@ -14,16 +14,16 @@
     padding: 1rem 0;
     /* padding: 1rem; */
     /* border: 1px solid; */
-    background-color: whitesmoke;
+    /* background-color: whitesmoke; */
 
-    & th {
+    /* & th {
         border-bottom: 1px solid;
         padding-bottom: 0.2rem;
     }
 
     & td {
         text-align: center;
-    }
+    } */
 }
 
 .post-list {
@@ -40,11 +40,19 @@
     }
 
     & li:first-child {
+        border: none;
         display: flex;
-        border-bottom: 1px solid;
         justify-content: space-around;
-        margin-bottom: 0.2rem;
+        /* margin-bottom: 0.2rem; */
+        margin-bottom: 0;
         padding-bottom: 0.2rem;
+    }
+
+    & li {
+        padding: 0.5rem;
+        border: 1px solid;
+        border-radius: 8px;
+        margin-bottom: 0.5rem;
     }
 
     & .table-row {
