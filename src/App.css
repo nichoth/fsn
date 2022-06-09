@@ -1,8 +1,18 @@
 body {
     /* background-color: pink; */
     margin: 0;
-    margin-bottom: 8rem;
-    font-family: sans-serif;
+    /* margin-bottom: 8rem; */
+    padding-bottom: 8rem;
+    font-family: 'Inter', sans-serif;
+    min-height: 200vh;
+
+    /* background: linear-gradient(304deg, #f8f292, #07bed8, #fd5790, #ffa849, */
+      /* #f8f292) white; */
+
+    /* background: linear-gradient(246deg, #059cb2, #fd538d) white; */
+    background: linear-gradient(246deg, #059cb2, #ecff20) white;
+    /* backdrop-filter: brightness(2.0); */
+    backdrop-filter: brightness(1.8);
 }
 
 main {

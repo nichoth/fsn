@@ -63,7 +63,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
           {feed?.items.map((item, i) => {
             console.log('item', item)
 
-            return (<li key={i} className="table-row bg-white">
+            return (<li key={i} className="table-row">
               <div className="table-cell img-cell">
                 {item.image ?
                   <img src={images[i]} /> :
