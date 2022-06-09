@@ -2,12 +2,11 @@ import React, { BaseSyntheticEvent, FunctionComponent, useState } from "react"
 import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
-import { FilePath } from "webnative/path"
+import { useHistory } from 'react-router-dom';
 import { Feed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
-import { getId } from '../utils/id'
-import { useHistory } from 'react-router-dom';
+import { updateFeed } from "../utils/util"
 import './Editor.css'
 
 type EditorProps = {
@@ -41,23 +40,23 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     content: string
   }
 
-  async function updateFeed (data: FeedData, { filename, type, size }) {
-    if (!fs || !fs.appPath) return
+  // async function updateFeed (data: FeedData, { filename, type, size }) {
+  //   if (!fs || !fs.appPath) return
 
-    const tempValue = {
-      image: { filename, type, size },
-      status: 'draft',
-      content_text: data.content,
-      title: data.title,
-    }
+  //   const tempValue = {
+  //     image: { filename, type, size },
+  //     status: 'draft',
+  //     content_text: data.content,
+  //     title: data.title,
+  //   }
 
-    const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
-    item ? feed.update(index, msgValue) : feed.addItem(msgValue)
+  //   const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
+  //   item ? feed.update(index, msgValue) : feed.addItem(msgValue)
 
-    const feedPath = fs.appPath(wn.path.file('feed.json'))
-    return fs.write(feedPath as FilePath, feed.toString())
-      .then(() => fs.publish())
-  }
+  //   const feedPath = fs.appPath(wn.path.file('feed.json'))
+  //   return fs.write(feedPath as FilePath, feed.toString())
+  //     .then(() => fs.publish())
+  // }
 
   // -----------------------------------------------------------------------
 
@@ -93,7 +92,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     fs.write(fs.appPath(wn.path.file(filename)), image)
       .then(() => {
         console.log('fs wrote image')
-        return updateFeed(data, { filename, type, size })
+        return updateFeed(feed, fs, item, index, data, { filename, type, size })
       })
       .then(update => {
         console.log('updated feed', update)

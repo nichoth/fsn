@@ -37,8 +37,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   console.log('feed in posts', feed)
 
   useEffect(() => {
-    // get all the image URLs,
-    // then set state
+    // get all the image URLs, then set state
     if (!feed) return
     Promise.all(feed.items.map(item => {
       return getImageFromItem(wn, item)
