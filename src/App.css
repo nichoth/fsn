@@ -17,6 +17,7 @@ body {
 
 main {
   margin: 1rem;
+  margin-top: 0;
 }
 
 header {
