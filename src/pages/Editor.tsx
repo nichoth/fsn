@@ -23,7 +23,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const { params } = match
 
   const item = (params && params.postId) ?
-    feed.items.find(item => (item.id == params.postId)) :
+    feed.items.find(item => (item.id === params.postId)) :
     null
 
   const index = (params && params.postId) ?
@@ -41,11 +41,11 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     content: string
   }
 
-  async function updateFeed (data: FeedData, imgName: string) {
+  async function updateFeed (data: FeedData, { filename, type, size }) {
     if (!fs || !fs.appPath) return
 
     const tempValue = {
-      image: imgName,
+      image: { filename, type, size },
       status: 'draft',
       content_text: data.content,
       title: data.title,
@@ -82,17 +82,18 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       return acc
     }, {})
 
-    const fileName = getNameFromFile(image)
+    const filename = getNameFromFile(image)
+    const { type, size } = image
     const url = URL.createObjectURL(image)
     console.log("*url*", url)
 
     // first save the image,
     // then update the feed and save the feed
     // (this is a two step process, not atomic)
-    fs.write(fs.appPath(wn.path.file(fileName)), image)
+    fs.write(fs.appPath(wn.path.file(filename)), image)
       .then(() => {
         console.log('fs wrote image')
-        return updateFeed(data, fileName)
+        return updateFeed(data, { filename, type, size })
       })
       .then(update => {
         console.log('updated feed', update)

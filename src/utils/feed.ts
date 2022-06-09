@@ -14,7 +14,11 @@ export interface Item {
   content_html?: string
   content_text?: string
   summary?: string
-  image?: string
+  image?: {
+    filename: string,
+    type: string,
+    size: number
+  }
   banner_image?: string
   date_published?: string
   date_modified?: string

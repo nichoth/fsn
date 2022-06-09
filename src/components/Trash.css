@@ -1,0 +1,18 @@
+.emoji-btn {
+    /* position: relative;
+    top: 6px; */
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    /* color: blue; */
+    text-decoration: none;
+    cursor: pointer;
+    color: transparent;  
+    text-shadow: 0 0 0 blue;
+    transition: text-shadow, 0.2s;
+
+    &:hover {
+        text-shadow: 0 0 0 cyan;
+        /* color: cyan; */
+    }
+}

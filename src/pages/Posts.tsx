@@ -4,6 +4,7 @@ import Layout from "../components/Layout"
 import { Feed, Item } from "../utils/feed"
 import { path } from "webnative"
 import { useWebnative, WebnativeContext } from "../context/webnative"
+import Trash from "../components/Trash"
 import './Posts.css'
 
 type PostProps = {
@@ -14,13 +15,16 @@ function getImageFromItem (wn: WebnativeContext, item: Item) {
   const { fs } = wn
   if (!fs || !fs.appPath) return
   if (!item.image) return
-  const fileName = item.image
 
-  return fs.cat(fs.appPath(path.file(fileName)))
+  var { filename, type } = item.image
+  // TODO -- get rid of this after you normalize item props
+  filename = filename || item.image
+
+  return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
       if (!content) return
       const url = URL.createObjectURL(
-        new Blob([content as BlobPart], {type: "image/jpeg"})
+        new Blob([content as BlobPart], { type: type || 'image/jpeg' })
       )
       return url
     })
@@ -43,6 +47,11 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
         setImages(imgs)
       })
   }, [(feed || {}).items])
+
+  function removeItem (item, ev) {
+    ev.preventDefault()
+    console.log('rm item', item)
+  }
 
   return (
     <Layout className="posts">
@@ -81,6 +90,8 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
                 <div>{item.status || <em>none</em>}</div>
                 <div>{item.date_published || <em>n/a</em>}</div>
               </Link>
+
+              <Trash onClick={removeItem.bind(null, item)} />
             </li>)
           })}
         </ol>
