@@ -118,7 +118,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   return (
     <Layout className="editor">
       <header>
-        <h2>New Post</h2>
+        <h2>{item ? 'Edit post' : 'New Post'}</h2>
       </header>
 
       <section className="editor">
