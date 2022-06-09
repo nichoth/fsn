@@ -1,3 +1,5 @@
+import { getId } from './id'
+
 /**
  *  Class to implment the JSON Feed format.
  *
@@ -62,6 +64,15 @@ export class Feed {
 
   public addItem = (item: Item) => {
     this.items.push(item)
+  }
+  
+  // mutate the given index
+  public update = (i: number, newData: Partial<Item>) => {
+    const data = Object.assign(this.items[i], newData)
+    getId(data).then(id => {
+      const _data = Object.assign(data, { id })
+      this.items[i] = _data
+    })
   }
 
   public toString = (): string => {

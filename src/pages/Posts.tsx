@@ -30,6 +30,8 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   const wn = useWebnative()
   const [images, setImages] = useState<(string | undefined)[]>([])
 
+  console.log('feed in posts', feed)
+
   useEffect(() => {
     // get all the image URLs,
     // then set state
@@ -62,17 +64,23 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
 
           {feed?.items.map((item, i) => {
             console.log('item', item)
+            const encoded = encodeURIComponent(item.id)
+            console.log('encoded', encoded)
 
-            return (<li key={i} className="table-row">
-              <div className="table-cell img-cell">
-                {item.image ?
-                  <img src={images[i]} /> :
-                  null
-                }
-              </div>
-              <div>{item.title}</div>
-              <div>{item.status || <em>none</em>}</div>
-              <div>{item.date_published || <em>n/a</em>}</div>
+            return (<li key={i}>
+              <Link className="table-row" to={'/posts/edit/' +
+                encodeURIComponent(encoded)}
+              >
+                <div className="table-cell img-cell">
+                  {item.image ?
+                    <img src={images[i]} /> :
+                    null
+                  }
+                </div>
+                <div>{item.title}</div>
+                <div>{item.status || <em>none</em>}</div>
+                <div>{item.date_published || <em>n/a</em>}</div>
+              </Link>
             </li>)
           })}
         </ol>
@@ -82,38 +90,3 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
 }
 
 export default Posts
-
-
-
-
-
-
-
-
-
-        // <table className="post-list">
-        //   <tr>
-        //       <th scope="col">Image</th>
-        //       <th scope="col">Title</th>
-        //       <th scope="col">Status</th>
-        //       <th scope="col">Last Update</th>
-        //   </tr>
-
-        //   {feed?.items.map((item, i) => {
-        //     return (<tr key={i}>
-        //       {item.image ?
-        //         (<td className="img-cell">
-        //           <img src={images[i]} />
-        //         </td>) :
-        //         null
-        //       }
-        //       <td>{item.title}</td>
-        //       <td>Draft</td>
-        //       <td>{item.date_published || 'date here'}</td>
-        //     </tr>
-        //   )
-        //   })}
-        // </table>
-
-
-

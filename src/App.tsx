@@ -18,9 +18,7 @@ import './App.css'
 
 
 function App() {
-  const wnCtx = useWebnative()
-  const { fs, username } = wnCtx
-  // const { fs, username } = useWebnative()
+  const { fs, username } = useWebnative()
   const [feed, setFeed] = useState<Feed | null>(null)
 
   useEffect(() => {
@@ -61,14 +59,21 @@ function App() {
       .then(() => newFeed)
   }
 
+  if (!feed) {
+    return null
+  }
+
   return (
     <Router>
       <Switch>
         <Redirect from="/" to="/posts" exact />
         <AuthRoute path="/posts" component={Posts} exact feed={feed} />
         <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
+        <AuthRoute path="/posts/edit/:postId" component={Editor} feed={feed} />
+          {/* <Route path="/posts/edit/:postId" component={Editor} feed={feed} /> */}
+        {/* </AuthRoute> */}
         <Route path="/login" component={Login} />
-        <Route path="/whoami" component={Whoami} wnCtx={wnCtx} />
+        <Route path="/whoami" component={Whoami} />
       </Switch>
     </Router>
   )

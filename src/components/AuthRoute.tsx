@@ -8,6 +8,7 @@ interface Props {
   path: string
   exact?: boolean
   feed: Feed | null
+  children?: React.ReactNode
 }
 
 const AuthRoute = ({ component: Component, ...rest }: Props) => {
@@ -23,7 +24,9 @@ const AuthRoute = ({ component: Component, ...rest }: Props) => {
       {...rest}
       render={(props) => {
         return state?.authenticated ? (
-          <Component {...props} {...rest} />
+          <Component {...props} {...rest}>
+            {props.children}
+          </Component>
         ) : (
           <Redirect to={{ pathname: "/login" }} />
         )

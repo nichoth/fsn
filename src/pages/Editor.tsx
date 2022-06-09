@@ -11,11 +11,26 @@ import { useHistory } from 'react-router-dom';
 import './Editor.css'
 
 type EditorProps = {
-  feed: Feed
+  feed: Feed,
+  index?: number,
+  match?: { params: { postId: string } }
 }
 
-const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
+const Editor: FunctionComponent<EditorProps> = (props) => {
+  const { feed, match } = props
+  console.log('feed*********', feed)
   const { fs } = useWebnative()
+  const { params } = match
+
+  const item = (params && params.postId) ?
+    feed.items.find(item => (item.id == params.postId)) :
+    null
+
+  const index = (params && params.postId) ?
+    feed.items.indexOf(item) :
+    null
+
+  console.log('index', index)
 
   const [resolving, setResolving] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
@@ -26,7 +41,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
     content: string
   }
 
-  async function updateFeed(data: FeedData, imgName: string) {
+  async function updateFeed (data: FeedData, imgName: string) {
     if (!fs || !fs.appPath) return
 
     const tempValue = {
@@ -37,7 +52,7 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
     }
 
     const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
-    feed.addItem(msgValue)
+    item ? feed.update(index, msgValue) : feed.addItem(msgValue)
 
     const feedPath = fs.appPath(wn.path.file('feed.json'))
     return fs.write(feedPath as FilePath, feed.toString())
@@ -125,11 +140,14 @@ const Editor: FunctionComponent<EditorProps> = ({ feed }) => {
             />
           </label>
 
-          <TextInput name="title" displayName="title" required={true} />
+          <TextInput name="title" displayName="title" required={true}
+              defaultValue={item ? item.title : null}
+          />
 
           <label className="body-input">
             Body
             <textarea
+              defaultValue={item ? item.content_text : null}
               required={true}
               name={"content"}
             ></textarea>

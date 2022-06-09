@@ -12,6 +12,7 @@ function TextInput (props) {
                 minLength={props.minlength || props.minLength}
                 maxLength={props.maxlength || props.maxLength}
                 id={name}
+                defaultValue={props.defaultValue || null}
             />
             <label htmlFor={name}>{displayName}</label>
         </div>

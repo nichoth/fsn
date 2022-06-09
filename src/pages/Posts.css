@@ -32,12 +32,11 @@
     border-collapse: collapse;
 
     display: table-row-group;
-    /* width: 75vw; */
 
-    & li > div {
+    /* & li > div {
         width: 6rem;
         text-align: center;
-    }
+    } */
 
     & li:first-child {
         border: none;
@@ -52,14 +51,29 @@
     }
 
     & li {
-        padding: 0.5rem;
+        list-style: none;
         border: 1px solid;
         border-radius: 8px;
         margin-bottom: 0.5rem;
         background-color: #ffffffad;
+        transition: border-width, 0.2s;
+
+        &:hover {
+            border-width: 3px;
+        }
+
+        & div {
+            width: 6rem;
+        }
+
+        & a {
+            color: black;
+            text-decoration: none;
+        }
     }
 
     & .table-row {
+        padding: 0.5rem;
         display: flex;
         justify-content: space-around;
         align-items: center;
