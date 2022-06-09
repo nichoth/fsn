@@ -43,9 +43,10 @@
         border: none;
         display: flex;
         justify-content: space-around;
-        /* margin-bottom: 0.2rem; */
-        margin-bottom: 0;
         padding-bottom: 0.2rem;
+        border-bottom: 2px solid gray;
+        margin-bottom: 0.5rem;
+        border-radius: 0;
     }
 
     & li {
