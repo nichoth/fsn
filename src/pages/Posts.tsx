@@ -43,7 +43,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   }, [(feed || {}).items])
 
   return (
-    <Layout>
+    <Layout className="posts">
       <header>
         <h2>Posts</h2>
         <Link to="/posts/new">

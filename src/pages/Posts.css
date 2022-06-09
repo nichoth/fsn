@@ -1,13 +1,19 @@
-.text-xl {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
+.layout.posts {
+    & h2 {
+        margin-top: 0;
+    }
+
+    & main {
+        margin-top: 1rem;
+    }
 }
 
 .post-section {
     display: table;
-    /* width: 75vw; */
     width: 100%;
     padding: 1rem 0;
+    /* padding: 1rem; */
+    /* border: 1px solid; */
     background-color: whitesmoke;
 
     & th {
