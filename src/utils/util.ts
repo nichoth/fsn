@@ -39,9 +39,14 @@ export function removeItem (feed, fs, item) {
 
     console.log('removing item', filename, item)
 
-    console.log('fssssssssssssssssss', fs)
+    // console.log('fssssssssssssssssss', fs)
 
-    return fs.rm(path.file(filename))
+    const filePath = fs.appPath(path.file(filename))
+    console.log('file path', filePath)
+
+    console.log('feed should have removed', feed)
+
+    return fs.rm(filePath)
         .then(() => {
             return fs.write(feedPath as FilePath, feed.toString())
                 .then(() => fs.publish())

@@ -22,7 +22,7 @@ function getImageFromItem (fs, item: Item) {
   var { filename, type } = item.image
   // TODO -- get rid of this after you normalize item props
   filename = filename || item.image
-
+  console.log('pathhhhhhh', fs.appPath(path.file(filename)))
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
       if (!content) return
@@ -30,6 +30,11 @@ function getImageFromItem (fs, item: Item) {
         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
       )
       return url
+    })
+    .catch(err => {
+      console.log('errrrrrrrrr', err)
+      console.log('pathhhhhhh', fs.appPath(path.file(filename)))
+      return null
     })
 }
 
@@ -40,8 +45,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed, fs }) => {
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
-
-  console.log('fffffffssssssssss', fs)
 
   useEffect(() => {
     // get all the image URLs, then set state

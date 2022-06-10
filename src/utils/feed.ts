@@ -71,8 +71,10 @@ export class Feed {
   }
 
   public removeItem = (item) => {
-    const index = this.items.findIndex(_item => _item.id = item.id)
+    const index = this.items.findIndex(_item => _item.id === item.id)
+    console.log('index', index)
     this.items.splice(index, 1)
+    console.log('this.items', this.items)
     return this
   }
   
