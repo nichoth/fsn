@@ -1,7 +1,7 @@
 import { getId } from './id'
 import { FilePath } from "webnative/path"
 import { path } from "webnative"
-import * as wn from "webnative"
+// import * as wn from "webnative"
 
 interface FeedData {
     title: string
@@ -29,22 +29,21 @@ export async function updateFeed (feed, fs, item, index, data: FeedData, {
     const feedPath = fs.appPath(path.file('feed.json'))
     return fs.write(feedPath as FilePath, feed.toString())
         .then(() => fs.publish())
-
 }
 
-export function removeItem (feed, wn, item) {
+export function removeItem (feed, fs, item) {
     feed.removeItem(item)
     var { filename } = item.image
     filename = filename || item.image
-    const feedPath = wn.fs.appPath(path.file('feed.json'))
+    const feedPath = fs.appPath(path.file('feed.json'))
 
     console.log('removing item', filename, item)
 
-    console.log('wwwwnnnnnnnn', wn)
+    console.log('fssssssssssssssssss', fs)
 
-    return wn.fs.rm(path.file(filename))
+    return fs.rm(path.file(filename))
         .then(() => {
-            return wn.fs.write(feedPath as FilePath, feed.toString())
-                .then(() => wn.fs.publish())
+            return fs.write(feedPath as FilePath, feed.toString())
+                .then(() => fs.publish())
         })
 }

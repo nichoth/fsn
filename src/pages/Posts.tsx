@@ -33,6 +33,7 @@ function getImageFromItem (wn: WebnativeContext, item: Item) {
 
 const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   const wn = useWebnative()
+  const { fs } = wn
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
@@ -51,7 +52,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   function delItem (item, ev) {
     ev.preventDefault()
     console.log('rm item', item)
-    removeItem(feed, wn, item)
+    removeItem(feed, fs, item)
   }
 
   return (
