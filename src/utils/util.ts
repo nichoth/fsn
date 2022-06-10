@@ -33,20 +33,14 @@ export async function updateFeed (feed, fs, item, index, data: FeedData, {
 
 export function removeItem (feed, fs, item) {
     feed.removeItem(item)
-    var { filename } = item.image
-    filename = filename || item.image
+    const { filename } = item.image
+    // handle old style .image property
+    const imageName = filename || item.image
     const feedPath = fs.appPath(path.file('feed.json'))
 
     console.log('removing item', filename, item)
 
-    // console.log('fssssssssssssssssss', fs)
-
-    const filePath = fs.appPath(path.file(filename))
-    console.log('file path', filePath)
-
-    console.log('feed should have removed', feed)
-
-    return fs.rm(filePath)
+    return fs.rm(fs.appPath(path.file(imageName)))
         .then(() => {
             return fs.write(feedPath as FilePath, feed.toString())
                 .then(() => fs.publish())
