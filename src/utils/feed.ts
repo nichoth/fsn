@@ -69,13 +69,20 @@ export class Feed {
   public addItem = (item: Item) => {
     this.items.push(item)
   }
+
+  public removeItem = (item) => {
+    const index = this.items.findIndex(_item => _item.id = item.id)
+    this.items.splice(index, 1)
+    return this
+  }
   
   // mutate the given index
   public update = (i: number, newData: Partial<Item>) => {
     const data = Object.assign(this.items[i], newData)
-    getId(data).then(id => {
+    return getId(data).then(id => {
       const _data = Object.assign(data, { id })
       this.items[i] = _data
+      return this
     })
   }
 

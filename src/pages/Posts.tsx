@@ -6,6 +6,7 @@ import { path } from "webnative"
 import { useWebnative, WebnativeContext } from "../context/webnative"
 import Trash from "../components/Trash"
 import './Posts.css'
+import { removeItem } from '../utils/util'
 
 type PostProps = {
   feed: Feed
@@ -47,9 +48,10 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
       })
   }, [(feed || {}).items])
 
-  function removeItem (item, ev) {
+  function delItem (item, ev) {
     ev.preventDefault()
     console.log('rm item', item)
+    removeItem(feed, wn, item)
   }
 
   return (
@@ -90,7 +92,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
                 <div>{item.date_published || <em>n/a</em>}</div>
               </Link>
 
-              <Trash onClick={removeItem.bind(null, item)} />
+              <Trash onClick={delItem.bind(null, item)} />
             </li>)
           })}
         </ol>
