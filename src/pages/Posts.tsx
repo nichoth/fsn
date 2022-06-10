@@ -12,8 +12,9 @@ type PostProps = {
   feed: Feed
 }
 
-function getImageFromItem (wn: WebnativeContext, item: Item) {
-  const { fs } = wn
+// function getImageFromItem (wn: WebnativeContext, item: Item) {
+function getImageFromItem (fs, item: Item) {
+  // const { fs } = wn
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
@@ -32,8 +33,9 @@ function getImageFromItem (wn: WebnativeContext, item: Item) {
 }
 
 const Posts: FunctionComponent<PostProps> = ({ feed }) => {
-  const wn = useWebnative()
-  const { fs } = wn
+  const { fs } = useWebnative()
+  // const wn = useWebnative()
+  // const { fs } = wn
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
@@ -42,7 +44,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
     // get all the image URLs, then set state
     if (!feed) return
     Promise.all(feed.items.map(item => {
-      return getImageFromItem(wn, item)
+      return getImageFromItem(fs, item)
     }))
       .then(imgs => {
         setImages(imgs)
