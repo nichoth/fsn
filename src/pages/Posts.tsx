@@ -3,13 +3,14 @@ import { Link } from "react-router-dom"
 import Layout from "../components/Layout"
 import { Feed, Item } from "../utils/feed"
 import { path } from "webnative"
-import { useWebnative, WebnativeContext } from "../context/webnative"
+// import { useWebnative, WebnativeContext } from "../context/webnative"
 import Trash from "../components/Trash"
 import './Posts.css'
 import { removeItem } from '../utils/util'
 
 type PostProps = {
-  feed: Feed
+  feed: Feed,
+  fs: any
 }
 
 // function getImageFromItem (wn: WebnativeContext, item: Item) {
@@ -32,13 +33,15 @@ function getImageFromItem (fs, item: Item) {
     })
 }
 
-const Posts: FunctionComponent<PostProps> = ({ feed }) => {
-  const { fs } = useWebnative()
+const Posts: FunctionComponent<PostProps> = ({ feed, fs }) => {
+  // const { fs } = useWebnative()
   // const wn = useWebnative()
   // const { fs } = wn
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
+
+  console.log('fffffffssssssssss', fs)
 
   useEffect(() => {
     // get all the image URLs, then set state
@@ -76,9 +79,9 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
           </li>
 
           {feed?.items.map((item, i) => {
-            console.log('item', item)
+            // console.log('item', item)
             const encoded = encodeURIComponent(item.id)
-            console.log('encoded', encoded)
+            // console.log('encoded', encoded)
 
             return (<li key={i}>
               <Link className="table-row" to={'/posts/edit/' +

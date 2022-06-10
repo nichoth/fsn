@@ -16,9 +16,9 @@ type EditorProps = {
 }
 
 const Editor: FunctionComponent<EditorProps> = (props) => {
-  const { feed, match } = props
+  const { feed, match, fs } = props
   console.log('feed*********', feed)
-  const { fs } = useWebnative()
+  // const { fs } = useWebnative()
   const { params } = match
 
   const item = (params && params.postId) ?
