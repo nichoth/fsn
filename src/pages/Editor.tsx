@@ -1,9 +1,10 @@
 import React, { BaseSyntheticEvent, FunctionComponent, useEffect, useState } from "react"
 import Layout from "../components/Layout"
-import { useWebnative } from "../context/webnative"
+import { useWebnative, WebnativeContext } from "../context/webnative"
 import * as wn from "webnative"
 import { path } from "webnative"
-import { FilePath } from "webnative/path"
+// import { FileSystem } from 'webnative'
+import { FilePath, Path } from "webnative/path"
 import { useHistory } from 'react-router-dom';
 import { Feed, SerializedFeed } from "../utils/feed"
 import Button from '../components/button'
@@ -24,6 +25,8 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   console.log('feed*********', feed)
   const { fs } = useWebnative()
   const { params } = match
+
+  if (!feed) return null
 
   const item = (params && params.postId) ?
     feed.items.find(item => (item.id === params.postId)) :
@@ -96,44 +99,91 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       return acc
     }, {})
 
-    const filename = getNameFromFile(image)
-    const { type, size } = image
-    const url = URL.createObjectURL(image)
-    console.log("*url*", url)
+    var imgWrite:Promise<FileSystem | null>
+    if (image) {
+      console.log('imgggggggggggggg', image)
+      const filename = getNameFromFile(image)
+      // const { type, size } = image
+      const url = URL.createObjectURL(image)
+      console.log("*url*", url)
+      imgWrite = fs.write(fs.appPath(wn.path.file(filename)), image)
+    } else {
+      imgWrite = Promise.resolve(null)
+    }
+
+    imgWrite.then(async () => {
+      // image has been written, now write the log entry
+      const newEntry = {
+        image: image ?
+          {
+            filename: getNameFromFile(image),
+            type: image.type,
+            size: image.size
+          } :
+          item.image,
+        status: 'draft',
+        content_text: data.content,
+        title: data.title
+      }
+
+      const msgValue = Object.assign({ id: await getId(newEntry) }, newEntry)
+      const newFeed = item ?
+        await Feed.update(feed, index, msgValue) :
+        await Feed.addItem(feed, msgValue)
+
+      const feedPath = fs.appPath(path.file('feed.json'))
+      return fs.write(feedPath as FilePath, Feed.toString(newFeed))
+          .then(() => fs.publish())
+          .then(update => {
+            console.log('updated feed', update)
+            history.push('/')
+            setResolving(false)
+          })
+          .catch(err => {
+            console.log('errrrrrrrrrr', err)
+            setResolving(false)
+          })
+    })
+
+
+
+
+
+
 
     // first save the image,
     // then update the feed and save the feed
     // (this is a two step process, not atomic)
-    fs.write(fs.appPath(wn.path.file(filename)), image)
-      .then(async () => {
-        console.log('fs wrote image')
-        // return updateFeed(feed, fs, item, index, data, { filename, type, size })
+    // fs.write(fs.appPath(wn.path.file(filename)), image)
+    //   .then(async () => {
+    //     console.log('fs wrote image')
+    //     // return updateFeed(feed, fs, item, index, data, { filename, type, size })
 
-        const tempValue = {
-            image: { filename, type, size },
-            status: data.status || 'draft',
-            content_text: data.content,
-            title: data.title,
-        }
+    //     const tempValue = {
+    //       image: { filename, type, size },
+    //       status: data.status || 'draft',
+    //       content_text: data.content,
+    //       title: data.title,
+    //     }
 
-        const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
-        const newFeed = item ?
-          await Feed.update(feed, index, msgValue) :
-          await Feed.addItem(feed, msgValue)
+    //     const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
+    //     const newFeed = item ?
+    //       await Feed.update(feed, index, msgValue) :
+    //       await Feed.addItem(feed, msgValue)
 
-        const feedPath = fs.appPath(path.file('feed.json'))
-        return fs.write(feedPath as FilePath, Feed.toString(newFeed))
-            .then(() => fs.publish())
-      })
-      .then(update => {
-        console.log('updated feed', update)
-        history.push('/')
-        setResolving(false)
-      })
-      .catch(err => {
-        console.log('errrrrrrrrrr', err)
-        setResolving(false)
-      })
+    //     const feedPath = fs.appPath(path.file('feed.json'))
+    //     return fs.write(feedPath as FilePath, Feed.toString(newFeed))
+    //         .then(() => fs.publish())
+    //   })
+    //   .then(update => {
+    //     console.log('updated feed', update)
+    //     history.push('/')
+    //     setResolving(false)
+    //   })
+    //   .catch(err => {
+    //     console.log('errrrrrrrrrr', err)
+    //     setResolving(false)
+    //   })
   }
 
   function changer (ev: BaseSyntheticEvent) {
@@ -160,19 +210,16 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
             </div>
           ) : null}
 
-          {previewImage ?
-            null :
-            (<label>
-              {'Image '}
-              <input
-                type="file"
-                required={true}
-                onChange={changer}
-                className="file-input"
-                name={"image"}
-              />
-            </label>)
-          }
+          <label>
+            {'Image '}
+            <input
+              type="file"
+              required={true}
+              onChange={changer}
+              className="file-input"
+              name={"image"}
+            />
+          </label>
 
           <TextInput name="title" displayName="title" required={true}
               defaultValue={item ? item.title : null}

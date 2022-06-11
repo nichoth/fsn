@@ -21,9 +21,9 @@ function getImageFromItem (fs, item: Item) {
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
+  console.log('itemmmmmmm', item)
+
   const { filename, type } = item.image
-  // TODO -- get rid of this after you normalize item props
-  // filename = filename || item.image
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
       if (!content) return
@@ -53,6 +53,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
       return getImageFromItem(fs, item)
     }))
       .then(imgs => {
+        console.log('imgsgsgsgsg', imgs)
         setImages(imgs)
       })
   }, [(feed || {}).items])
