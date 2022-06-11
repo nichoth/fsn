@@ -19,9 +19,9 @@ function getImageFromItem (fs, item: Item) {
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
-  var { filename, type } = item.image
+  const { filename, type } = item.image
   // TODO -- get rid of this after you normalize item props
-  filename = filename || item.image
+  // filename = filename || item.image
   console.log('pathhhhhhh', fs.appPath(path.file(filename)))
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
