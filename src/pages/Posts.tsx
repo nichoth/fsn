@@ -21,12 +21,9 @@ function getImageFromItem (fs, item: Item) {
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
-  console.log('aaaaaaaaa', item)
-
   const { filename, type } = item.image
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
-      console.log('content', content)
       if (!content) return
       const url = URL.createObjectURL(
         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
@@ -34,16 +31,14 @@ function getImageFromItem (fs, item: Item) {
       return url
     })
     .catch(err => {
-      console.log('errrrrrrrrr', err)
-      console.log('filename', filename)
-      console.log('pathhhhhhh', fs.appPath(path.file(filename)))
+      console.log('errrrrr', err)
       return null
     })
 }
 
 const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const { fs } = useWebnative()
-  const [images, setImages] = useState<(string | undefined)[]>([])
+  const [images, setImages] = useState({})
   const [delResolving, setDelResolving] = useState<boolean>(false)
 
   console.log('**posts in posts**', feed)
@@ -51,12 +46,17 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   useEffect(() => {
     // get all the image URLs, then set state
     if (!feed) return
+
     Promise.all(feed.items.map(item => {
       return getImageFromItem(fs, item)
     }))
       .then(imgs => {
-        console.log('imgsgsgsgsg', imgs)
-        setImages(imgs)
+        const map = imgs.reduce((acc, img, i) => {
+          acc[feed.items[i].id] = img
+          return acc
+        }, {})
+
+        setImages(map)
       })
   }, [(feed || {}).items])
 
@@ -81,7 +81,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
         onFeedChange(newFeed)
       })
   }
-
 
   return (
     <Layout className="posts">
@@ -110,7 +109,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
               >
                 <div className="table-cell img-cell">
                   {item.image ?
-                    <img src={images[i]} /> :
+                    <img src={images[item.id]} /> :
                     null
                   }
                 </div>
