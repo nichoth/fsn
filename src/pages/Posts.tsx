@@ -3,14 +3,14 @@ import { Link } from "react-router-dom"
 import Layout from "../components/Layout"
 import { Feed, Item } from "../utils/feed"
 import { path } from "webnative"
-// import { useWebnative, WebnativeContext } from "../context/webnative"
+import { useWebnative, WebnativeContext } from "../context/webnative"
 import Trash from "../components/Trash"
 import './Posts.css'
 // import { removeItem } from '../utils/util'
 
 type PostProps = {
   feed: Feed,
-  fs: any
+  // fs: any
 }
 
 // function getImageFromItem (wn: WebnativeContext, item: Item) {
@@ -38,10 +38,10 @@ function getImageFromItem (fs, item: Item) {
     })
 }
 
-const Posts: FunctionComponent<PostProps> = ({ feed, fs }) => {
-  // const { fs } = useWebnative()
+const Posts: FunctionComponent<PostProps> = ({ feed }) => {
   // const wn = useWebnative()
   // const { fs } = wn
+  const { fs } = useWebnative()
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
@@ -61,13 +61,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed, fs }) => {
     ev.preventDefault()
     console.log('rm item', item)
     // removeItem(feed, fs, item)
-
-
-
-
-
-
-
   }
 
   return (

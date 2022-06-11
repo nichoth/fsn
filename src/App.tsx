@@ -67,10 +67,8 @@ function App() {
     <Router>
       <Switch>
         <Redirect from="/" to="/posts" exact />
-        <AuthRoute path="/posts" component={Posts} exact feed={feed} fs={fs} />
-        <AuthRoute path="/posts/new" component={Editor} exact feed={feed}
-          fs={fs}
-        />
+        <AuthRoute path="/posts" component={Posts} exact feed={feed} />
+        <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
         <AuthRoute path="/posts/edit/:postId" component={Editor} feed={feed} />
           {/* <Route path="/posts/edit/:postId" component={Editor} feed={feed} /> */}
         {/* </AuthRoute> */}
