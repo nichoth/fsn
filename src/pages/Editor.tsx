@@ -160,16 +160,19 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
             </div>
           ) : null}
 
-          <label>
-            {'Image '}
-            <input
-              type="file"
-              required={true}
-              onChange={changer}
-              className="file-input"
-              name={"image"}
-            />
-          </label>
+          {previewImage ?
+            null :
+            (<label>
+              {'Image '}
+              <input
+                type="file"
+                required={true}
+                onChange={changer}
+                className="file-input"
+                name={"image"}
+              />
+            </label>)
+          }
 
           <TextInput name="title" displayName="title" required={true}
               defaultValue={item ? item.title : null}
