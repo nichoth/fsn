@@ -48,7 +48,6 @@ function App() {
   }, [fs, username])
 
   function createFeed (feedPath:FilePath) {
-    // if (!fs) return null
     const newFeed = new Feed({
       title: `${username}'s blog`,
       authors: [{ name: username }],
@@ -58,10 +57,6 @@ function App() {
       .then(() => fs.publish())
       .then(() => newFeed)
   }
-
-  // if (!feed) {
-  //   return null
-  // }
 
   return (
     <Router>

@@ -73,9 +73,11 @@ export class Feed {
   public removeItem = (item) => {
     const index = this.items.findIndex(_item => _item.id === item.id)
     console.log('index', index)
-    this.items.splice(index, 1)
+    const arr = this.items
+    arr.splice(index, 1)
+    this.items = ([]).concat(arr)
     console.log('this.items', this.items)
-    return this
+    return arr
   }
   
   // mutate the given index
