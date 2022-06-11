@@ -214,7 +214,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
             {'Image '}
             <input
               type="file"
-              required={true}
+              required={item ? false : true}
               onChange={changer}
               className="file-input"
               name={"image"}
