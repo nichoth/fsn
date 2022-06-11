@@ -99,10 +99,10 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       return acc
     }, {})
 
-    var imgWrite:Promise<FileSystem | null>
+    var imgWrite
+    var filename
     if (image) {
-      console.log('imgggggggggggggg', image)
-      const filename = getNameFromFile(image)
+      filename = getNameFromFile(image)
       // const { type, size } = image
       const url = URL.createObjectURL(image)
       console.log("*url*", url)
@@ -116,7 +116,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       const newEntry = {
         image: image ?
           {
-            filename: getNameFromFile(image),
+            filename,
             type: image.type,
             size: image.size
           } :

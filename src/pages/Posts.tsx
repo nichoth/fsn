@@ -21,11 +21,12 @@ function getImageFromItem (fs, item: Item) {
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
-  console.log('itemmmmmmm', item)
+  console.log('aaaaaaaaa', item)
 
   const { filename, type } = item.image
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
+      console.log('content', content)
       if (!content) return
       const url = URL.createObjectURL(
         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
@@ -34,6 +35,7 @@ function getImageFromItem (fs, item: Item) {
     })
     .catch(err => {
       console.log('errrrrrrrrr', err)
+      console.log('filename', filename)
       console.log('pathhhhhhh', fs.appPath(path.file(filename)))
       return null
     })
