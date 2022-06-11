@@ -65,12 +65,12 @@ Feed.toString = (feed:SerializedFeed): string => {
   return JSON.stringify(feed)
 }
 
-Feed.addItem = (feed:SerializedFeed, item:Item): SerializedFeed => {
+Feed.addItem = (feed:SerializedFeed, item:Item): Promise<SerializedFeed> => {
   feed.items.push(item)
-  return Object.assign({}, feed)
+  return Promise.resolve(Object.assign({}, feed))
 }
 
-Feed.update = (feed:SerializedFeed, i: number, newData: Partial<Item>) => {
+Feed.update = (feed:SerializedFeed, i: number, newData: Partial<Item>): Promise<SerializedFeed> => {
     const data = Object.assign(feed.items[i], newData)
     return getId(data).then(id => {
       const _data = Object.assign(data, { id })
@@ -80,8 +80,9 @@ Feed.update = (feed:SerializedFeed, i: number, newData: Partial<Item>) => {
 }
 
 Feed.removeItem = (feed, item) => {
+  console.log('feed.items', feed.items)
   const index = feed.items.findIndex(_item => _item.id === item.id)
-  console.log('index', index)
+  console.log('item, index', item, index)
   const arr = feed.items
   arr.splice(index, 1)
   return Object.assign({}, feed, { items: arr })

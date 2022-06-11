@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { path } from "webnative"
 import {
   HashRouter as Router,
   Redirect,
@@ -16,6 +17,8 @@ import { Feed, SerializedFeed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
 import './App.css'
 
+window.wn = wn
+
 
 function App() {
   const { fs, username } = useWebnative()
@@ -29,13 +32,22 @@ function App() {
       if (await fs.exists(feedPath)) {
         console.log("✅ feed file exists")
         const content = await fs.read(feedPath as FilePath)
+        console.log('content', content)
         try {
           setFeed(Feed.fromString(content as string))
         } catch (err) {
           // this error means that the given content was not valid JSON
           console.log("err in here", err)
-          const _feed = await createFeed(feedPath)
-          setFeed(_feed)
+          // if there's a json error, then just write over the existing path
+          // with a new feed
+          const feedPath = fs.appPath(path.file('feed.json'))
+          const newFeed = await createFeed(feedPath)
+          console.log('new feed', newFeed)
+          setFeed(newFeed)
+          // fs.rm(fs.appPath(path.file(item.image.filename)))
+          // fs.write(feedPath as FilePath, Feed.toString(newFeed))
+          // const _feed = await createFeed(feedPath)
+          // setFeed(_feed)
         }
       } else {
         console.log("❌ need to create feed")
@@ -58,12 +70,20 @@ function App() {
       .then(() => newFeed)
   }
 
+  function handleFeedChange (newFeed) {
+    setFeed(newFeed)
+  }
+
   return (
     <Router>
       <Switch>
         <Redirect from="/" to="/posts" exact />
-        <AuthRoute path="/posts" component={Posts} exact feed={feed} />
-        <AuthRoute path="/posts/new" component={Editor} exact feed={feed} />
+        <AuthRoute path="/posts" component={Posts} exact feed={feed}
+          onFeedChange={handleFeedChange}
+        />
+        <AuthRoute path="/posts/new" component={Editor} exact feed={feed}
+          onFeedChange={handleFeedChange}
+        />
         <AuthRoute path="/posts/edit/:postId" component={Editor} feed={feed} />
           {/* <Route path="/posts/edit/:postId" component={Editor} feed={feed} /> */}
         {/* </AuthRoute> */}

@@ -3,12 +3,14 @@ import { Link } from "react-router-dom"
 import Layout from "../components/Layout"
 import { Feed, Item, SerializedFeed } from "../utils/feed"
 import { path } from "webnative"
+import { FilePath } from "webnative/path"
 import { useWebnative, WebnativeContext } from "../context/webnative"
 import Trash from "../components/Trash"
 import './Posts.css'
 
 type PostProps = {
   feed: SerializedFeed,
+  onFeedChange: Function
   // feedItems: Item[]
   // fs: any
 }
@@ -37,9 +39,11 @@ function getImageFromItem (fs, item: Item) {
     })
 }
 
-const Posts: FunctionComponent<PostProps> = ({ feed }) => {
+const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const { fs } = useWebnative()
   const [images, setImages] = useState<(string | undefined)[]>([])
+
+  console.log('**posts in posts**', feed)
 
   useEffect(() => {
     // get all the image URLs, then set state
@@ -52,11 +56,32 @@ const Posts: FunctionComponent<PostProps> = ({ feed }) => {
       })
   }, [(feed || {}).items])
 
+  const feedPath = fs.appPath(path.file('feed.json'))
+
+
+
+
   function delItem (item, ev) {
     ev.preventDefault()
     console.log('rm item', item)
-    // removeItem(feed, fs, item)
+    const newFeed = Feed.removeItem(feed, item)
+    // const newFeed = Feed.removeItem(feed, item)
+    // first we update IPFS with new json, then we update app state
+    return fs.rm(fs.appPath(path.file(item.image.filename)))
+      .then(() => {
+        return fs.write(feedPath as FilePath, newFeed)
+      })
+      .then(() => {
+        return fs.publish()
+      })
+      .then(() => {
+        onFeedChange( Feed.removeItem(feed, item) )
+      })
   }
+
+
+
+
 
   return (
     <Layout className="posts">

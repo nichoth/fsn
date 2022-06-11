@@ -2,15 +2,19 @@ import React, { BaseSyntheticEvent, FunctionComponent, useState } from "react"
 import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
+import { path } from "webnative"
+import { FilePath } from "webnative/path"
 import { useHistory } from 'react-router-dom';
-import { SerializedFeed } from "../utils/feed"
+import { Feed, SerializedFeed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
-import { updateFeed } from "../utils/util"
+import { getId } from "../utils/id";
+// import { updateFeed } from "../utils/util"
 import './Editor.css'
 
 type EditorProps = {
   feed: SerializedFeed,
+  onFeedChange: Function,
   index?: number,
   match?: { params: { postId: string } }
 }
@@ -50,7 +54,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     return slug + "." + ext
   }
 
-  const submitter = (ev: BaseSyntheticEvent) => {
+  const submitter = async (ev: BaseSyntheticEvent) => {
     if (!(fs && fs.appPath)) return
     setResolving(true)
     ev.preventDefault()
@@ -72,9 +76,27 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     // then update the feed and save the feed
     // (this is a two step process, not atomic)
     fs.write(fs.appPath(wn.path.file(filename)), image)
-      .then(() => {
+      .then(async () => {
         console.log('fs wrote image')
-        return updateFeed(feed, fs, item, index, data, { filename, type, size })
+        // return updateFeed(feed, fs, item, index, data, { filename, type, size })
+
+        const tempValue = {
+            image: { filename, type, size },
+            status: data.status || 'draft',
+            content_text: data.content,
+            title: data.title,
+        }
+
+        const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
+        const newFeed = item ?
+          await Feed.update(feed, index, msgValue) :
+          await Feed.addItem(feed, msgValue)
+
+        const feedPath = fs.appPath(path.file('feed.json'))
+        return fs.write(feedPath as FilePath, Feed.toString(newFeed))
+            .then(() => fs.publish())
+
+
       })
       .then(update => {
         console.log('updated feed', update)
