@@ -35,12 +35,12 @@ export function removeItem (feed, fs, item) {
     feed.removeItem(item)
     const { filename } = item.image
     // handle old style .image property
-    const imageName = filename || item.image
+    // const imageName = filename || item.image
     const feedPath = fs.appPath(path.file('feed.json'))
 
     console.log('removing item', filename, item)
 
-    return fs.rm(fs.appPath(path.file(imageName)))
+    return fs.rm(fs.appPath(path.file(filename)))
         .then(() => {
             return fs.write(feedPath as FilePath, feed.toString())
                 .then(() => fs.publish())
