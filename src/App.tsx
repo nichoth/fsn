@@ -32,7 +32,7 @@ function App() {
       if (await fs.exists(feedPath)) {
         console.log("✅ feed file exists")
         const content = await fs.read(feedPath as FilePath)
-        console.log('content', content)
+        // console.log('content', content)
         try {
           setFeed(Feed.fromString(content as string))
         } catch (err) {
@@ -65,7 +65,7 @@ function App() {
       authors: [{ name: username }],
       items: []
     })
-    return fs.write(feedPath as FilePath, newFeed.toString())
+    return fs.write(feedPath as FilePath, Feed.toString(newFeed))
       .then(() => fs.publish())
       .then(() => newFeed)
   }

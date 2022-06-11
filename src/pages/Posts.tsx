@@ -69,7 +69,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
     // first we update IPFS with new json, then we update app state
     return fs.rm(fs.appPath(path.file(item.image.filename)))
       .then(() => {
-        return fs.write(feedPath as FilePath, newFeed)
+        return fs.write(feedPath as FilePath, Feed.toString(newFeed))
       })
       .then(() => {
         return fs.publish()
