@@ -59,7 +59,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
 
   const feedPath = fs.appPath(path.file('feed.json'))
 
-  function delItem (item, ev) {
+  function delItem (item:Item, ev:Event) {
     ev.preventDefault()
     console.log('rm item', item)
     const newFeed = Feed.removeItem(feed, item)
