@@ -10,6 +10,7 @@ import './Posts.css'
 
 type PostProps = {
   feed: Feed,
+  feedItems: Item[]
   // fs: any
 }
 
@@ -22,7 +23,6 @@ function getImageFromItem (fs, item: Item) {
   const { filename, type } = item.image
   // TODO -- get rid of this after you normalize item props
   // filename = filename || item.image
-  console.log('pathhhhhhh', fs.appPath(path.file(filename)))
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
       if (!content) return
@@ -38,13 +38,14 @@ function getImageFromItem (fs, item: Item) {
     })
 }
 
-const Posts: FunctionComponent<PostProps> = ({ feed }) => {
+const Posts: FunctionComponent<PostProps> = ({ feed, feedItems }) => {
   // const wn = useWebnative()
   // const { fs } = wn
   const { fs } = useWebnative()
   const [images, setImages] = useState<(string | undefined)[]>([])
 
   console.log('feed in posts', feed)
+  console.log('items', feedItems)
 
   useEffect(() => {
     // get all the image URLs, then set state
