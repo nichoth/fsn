@@ -95,8 +95,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
         const feedPath = fs.appPath(path.file('feed.json'))
         return fs.write(feedPath as FilePath, Feed.toString(newFeed))
             .then(() => fs.publish())
-
-
       })
       .then(update => {
         console.log('updated feed', update)
