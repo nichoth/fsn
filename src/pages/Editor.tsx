@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, FunctionComponent, useState } from "react"
+import React, { BaseSyntheticEvent, FunctionComponent, useEffect, useState } from "react"
 import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
@@ -33,10 +33,39 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     feed.items.indexOf(item) :
     null
 
-  console.log('index', index)
+  console.log('index of what you are editing currently', index)
 
   const [resolving, setResolving] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!item) return
+    const { filename, type } = item.image
+    fs.cat(fs.appPath(path.file(filename)))
+      .then(content => {
+        if (!content) return
+        setPreviewImage(URL.createObjectURL(
+          new Blob([content as BlobPart], { type: type || 'image/jpeg' })
+        ))
+      })
+  }, [item])
+
+  // var prevImg = null
+  // if (item) {
+  //   const { filename, type } = item.image
+  //   fs.cat(fs.appPath(path.file(filename)))
+  //     .then(content => {
+  //       if (!content) return
+  //       setPreviewImage(URL.createObjectURL(
+  //         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
+  //       ))
+
+  //       // prevImg = URL.createObjectURL(
+  //       //   new Blob([content as BlobPart], { type: type || 'image/jpeg' })
+  //       // )
+  //     })
+  // }
+
   const history = useHistory();
 
   interface FeedData {
