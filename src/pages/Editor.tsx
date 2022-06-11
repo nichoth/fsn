@@ -3,14 +3,14 @@ import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
 import { useHistory } from 'react-router-dom';
-import { Feed } from "../utils/feed"
+import { SerializedFeed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
 import { updateFeed } from "../utils/util"
 import './Editor.css'
 
 type EditorProps = {
-  feed: Feed,
+  feed: SerializedFeed,
   index?: number,
   match?: { params: { postId: string } }
 }
@@ -39,24 +39,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     title: string
     content: string
   }
-
-  // async function updateFeed (data: FeedData, { filename, type, size }) {
-  //   if (!fs || !fs.appPath) return
-
-  //   const tempValue = {
-  //     image: { filename, type, size },
-  //     status: 'draft',
-  //     content_text: data.content,
-  //     title: data.title,
-  //   }
-
-  //   const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
-  //   item ? feed.update(index, msgValue) : feed.addItem(msgValue)
-
-  //   const feedPath = fs.appPath(wn.path.file('feed.json'))
-  //   return fs.write(feedPath as FilePath, feed.toString())
-  //     .then(() => fs.publish())
-  // }
 
   // -----------------------------------------------------------------------
 

@@ -12,14 +12,14 @@ import Editor from "./pages/Editor"
 import Login from "./pages/Login"
 import Posts from "./pages/Posts"
 import Whoami from "./pages/Whoami"
-import { Feed } from "./utils/feed"
+import { Feed, SerializedFeed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
 import './App.css'
 
 
 function App() {
   const { fs, username } = useWebnative()
-  const [feed, setFeed] = useState<Feed | null>(null)
+  const [feed, setFeed] = useState<SerializedFeed | null>(null)
 
   useEffect(() => {
     async function loadFeed() {
@@ -48,7 +48,7 @@ function App() {
   }, [fs, username])
 
   function createFeed (feedPath:FilePath) {
-    const newFeed = new Feed({
+    const newFeed = Feed({
       title: `${username}'s blog`,
       authors: [{ name: username }],
       items: []
