@@ -42,6 +42,7 @@ function getImageFromItem (fs, item: Item) {
 const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const { fs } = useWebnative()
   const [images, setImages] = useState<(string | undefined)[]>([])
+  const [delResolving, setDelResolving] = useState<boolean>(false)
 
   console.log('**posts in posts**', feed)
 
@@ -58,13 +59,11 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
 
   const feedPath = fs.appPath(path.file('feed.json'))
 
-
-
-
   function delItem (item, ev) {
     ev.preventDefault()
     console.log('rm item', item)
     const newFeed = Feed.removeItem(feed, item)
+    setDelResolving(true)
     // const newFeed = Feed.removeItem(feed, item)
     // first we update IPFS with new json, then we update app state
     return fs.rm(fs.appPath(path.file(item.image.filename)))
@@ -75,12 +74,10 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
         return fs.publish()
       })
       .then(() => {
-        onFeedChange( Feed.removeItem(feed, item) )
+        setDelResolving(false)
+        onFeedChange(newFeed)
       })
   }
-
-
-
 
 
   return (
@@ -119,7 +116,9 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
                 <div>{item.date_published || <em>n/a</em>}</div>
               </Link>
 
-              <Trash onClick={delItem.bind(null, item)} />
+              <Trash className={delResolving ? 'resolving' : null}
+                onClick={delItem.bind(null, item)}
+              />
             </li>)
           })}
         </ol>

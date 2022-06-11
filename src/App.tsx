@@ -17,9 +17,6 @@ import { Feed, SerializedFeed } from "./utils/feed"
 import { useWebnative } from "./context/webnative"
 import './App.css'
 
-window.wn = wn
-
-
 function App() {
   const { fs, username } = useWebnative()
   const [feed, setFeed] = useState<SerializedFeed | null>(null)
@@ -44,10 +41,6 @@ function App() {
           const newFeed = await createFeed(feedPath)
           console.log('new feed', newFeed)
           setFeed(newFeed)
-          // fs.rm(fs.appPath(path.file(item.image.filename)))
-          // fs.write(feedPath as FilePath, Feed.toString(newFeed))
-          // const _feed = await createFeed(feedPath)
-          // setFeed(_feed)
         }
       } else {
         console.log("❌ need to create feed")
