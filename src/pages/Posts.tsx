@@ -11,8 +11,6 @@ import './Posts.css'
 type PostProps = {
   feed: SerializedFeed,
   onFeedChange: Function
-  // feedItems: Item[]
-  // fs: any
 }
 
 // function getImageFromItem (wn: WebnativeContext, item: Item) {
@@ -67,7 +65,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
     console.log('rm item', item)
     const newFeed = Feed.removeItem(feed, item)
     setDelResolving(true)
-    // const newFeed = Feed.removeItem(feed, item)
     // first we update IPFS with new json, then we update app state
     return fs.rm(fs.appPath(path.file(item.image.filename)))
       .then(() => {

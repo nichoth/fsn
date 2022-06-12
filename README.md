@@ -2,6 +2,8 @@
 
 A React-based blogging engine powered by [Fission's Webnative SDK](https://github.com/fission-suite/webnative).
 
+This uses [wnfs](https://guide.fission.codes/developers/webnative/file-system-wnfs) to store a JSON file of blog posts, and also saves image blobs to wnfs. `wnfs` is an IPFS node hosted by fission.
+
 ## Development
 
 Fork or clone this repository and then do `npm install`.
