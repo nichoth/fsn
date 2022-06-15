@@ -42,7 +42,8 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const [previewImage, setPreviewImage] = useState<string | null>(null)
 
   useEffect(() => {
-    if (!item) return
+    if (!item || !item.image) return
+    if (!fs) return
     const { filename, type } = item.image
     fs.cat(fs.appPath(path.file(filename)))
       .then(content => {
@@ -52,22 +53,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
         ))
       })
   }, [item])
-
-  // var prevImg = null
-  // if (item) {
-  //   const { filename, type } = item.image
-  //   fs.cat(fs.appPath(path.file(filename)))
-  //     .then(content => {
-  //       if (!content) return
-  //       setPreviewImage(URL.createObjectURL(
-  //         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
-  //       ))
-
-  //       // prevImg = URL.createObjectURL(
-  //       //   new Blob([content as BlobPart], { type: type || 'image/jpeg' })
-  //       // )
-  //     })
-  // }
 
   const history = useHistory();
 
@@ -120,14 +105,14 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
             type: image.type,
             size: image.size
           } :
-          item.image,
+          item?.image,
         status: 'draft',
         content_text: data.content,
         title: data.title
       }
 
       const msgValue = Object.assign({ id: await getId(newEntry) }, newEntry)
-      const newFeed = item ?
+      const newFeed = (item && index) ?
         await Feed.update(feed, index, msgValue) :
         await Feed.addItem(feed, msgValue)
 
@@ -145,45 +130,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
           })
     })
 
-
-
-
-
-
-
-    // first save the image,
-    // then update the feed and save the feed
-    // (this is a two step process, not atomic)
-    // fs.write(fs.appPath(wn.path.file(filename)), image)
-    //   .then(async () => {
-    //     console.log('fs wrote image')
-    //     // return updateFeed(feed, fs, item, index, data, { filename, type, size })
-
-    //     const tempValue = {
-    //       image: { filename, type, size },
-    //       status: data.status || 'draft',
-    //       content_text: data.content,
-    //       title: data.title,
-    //     }
-
-    //     const msgValue = Object.assign({ id: await getId(tempValue) }, tempValue)
-    //     const newFeed = item ?
-    //       await Feed.update(feed, index, msgValue) :
-    //       await Feed.addItem(feed, msgValue)
-
-    //     const feedPath = fs.appPath(path.file('feed.json'))
-    //     return fs.write(feedPath as FilePath, Feed.toString(newFeed))
-    //         .then(() => fs.publish())
-    //   })
-    //   .then(update => {
-    //     console.log('updated feed', update)
-    //     history.push('/')
-    //     setResolving(false)
-    //   })
-    //   .catch(err => {
-    //     console.log('errrrrrrrrrr', err)
-    //     setResolving(false)
-    //   })
   }
 
   function changer (ev: BaseSyntheticEvent) {
