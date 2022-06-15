@@ -13,9 +13,7 @@ type PostProps = {
   onFeedChange: Function
 }
 
-// function getImageFromItem (wn: WebnativeContext, item: Item) {
 function getImageFromItem (fs, item: Item) {
-  // const { fs } = wn
   if (!fs || !fs.appPath) return
   if (!item.image) return
 
@@ -48,9 +46,9 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
     Promise.all(feed.items.map(item => {
       return getImageFromItem(fs, item)
     }))
-      .then(imgs => {
-        const map = imgs.reduce((acc, img, i) => {
-          acc[feed.items[i].id] = img
+      .then(imgUrls => {
+        const map = imgUrls.reduce((acc, imgUrl, i) => {
+          acc[feed.items[i].id] = imgUrl
           return acc
         }, {})
 

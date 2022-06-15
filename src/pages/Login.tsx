@@ -15,8 +15,8 @@ const Login = () => {
   //  our authentication lobby
 
   return (
-    <div>
-        <h1 className="text-2xl">Fission Blog</h1>
+    <div className="route-login">
+        <h1>Fission Blog</h1>
         <p>
           A web native blogging engine.
         </p>
