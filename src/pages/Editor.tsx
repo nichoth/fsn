@@ -1,16 +1,15 @@
-import React, { BaseSyntheticEvent, FunctionComponent, useEffect, useState } from "react"
+import React, { BaseSyntheticEvent, FunctionComponent, useEffect,
+  useState } from "react"
 import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
 import { path } from "webnative"
-// import { FileSystem } from 'webnative'
-import { FilePath, Path } from "webnative/path"
+import { FilePath } from "webnative/path"
 import { useHistory } from 'react-router-dom';
 import { Feed, SerializedFeed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
 import { getId } from "../utils/id";
-// import { updateFeed } from "../utils/util"
 import './Editor.css'
 
 type EditorProps = {
