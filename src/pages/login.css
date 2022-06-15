@@ -6,7 +6,7 @@ button.login {
     height: 4rem;
     min-width: 16rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 1rem 1rem;
     border-radius: 8px;
