@@ -174,7 +174,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
           <label className="body-input">
             Body
             <textarea
-              defaultValue={item ? item.content_text : null}
+              defaultValue={item?.content_text}
               required={true}
               name={"content"}
             ></textarea>
