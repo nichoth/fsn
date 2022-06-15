@@ -1,6 +1,6 @@
 import React, { BaseSyntheticEvent, FunctionComponent, useEffect, useState } from "react"
 import Layout from "../components/Layout"
-import { useWebnative, WebnativeContext } from "../context/webnative"
+import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
 import { path } from "webnative"
 // import { FileSystem } from 'webnative'
@@ -24,7 +24,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const { feed, match } = props
   console.log('feed*********', feed)
   const { fs } = useWebnative()
-  const { params } = match
+  const params = match ? match.params : null
 
   if (!feed) return null
 
@@ -32,7 +32,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     feed.items.find(item => (item.id === params.postId)) :
     null
 
-  const index = (params && params.postId) ?
+  const index = item ?
     feed.items.indexOf(item) :
     null
 
