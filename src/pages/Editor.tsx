@@ -101,13 +101,13 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       if (!fs || !fs.appPath) return
 
       const newEntry = {
-        image: image ?
+        image: (image ?
           {
             filename,
             type: image.type,
             size: image.size
           } :
-          item?.image,
+          item?.image),
         status: 'draft',
         content_text: data.content,
         title: data.title
