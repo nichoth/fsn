@@ -119,6 +119,7 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
 
               <Trash className={delResolving ? 'resolving' : null}
                 onClick={delItem.bind(null, item)}
+                title="delete"
               />
             </li>)
           })}
