@@ -23,6 +23,8 @@ Build a deployable web app
 npm run build
 ```
 
+## notes
+
 ----------------------------------------------------
 
 https://guide.fission.codes/accounts/account-signup
