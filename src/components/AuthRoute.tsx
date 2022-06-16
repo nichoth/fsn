@@ -9,6 +9,7 @@ interface Props {
   exact?: boolean
   feed: SerializedFeed | null
   children?: React.ReactNode
+  onFeedChange?: Function
 }
 
 const AuthRoute = ({ component: Component, ...rest }: Props) => {
