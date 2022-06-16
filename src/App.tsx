@@ -53,6 +53,8 @@ function App() {
   }, [fs, username])
 
   function createFeed (feedPath:FilePath) {
+    if (!fs) return null
+
     const newFeed = Feed({
       title: `${username}'s blog`,
       authors: [{ name: username }],

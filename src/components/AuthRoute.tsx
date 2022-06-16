@@ -1,20 +1,18 @@
 import React from "react"
 import { Route, Redirect, RouteComponentProps } from "react-router-dom"
 import { useWebnative } from "../context/webnative"
-import { Feed } from "../utils/feed"
+import { SerializedFeed } from "../utils/feed"
 
 interface Props {
   component: React.FC<RouteComponentProps>
   path: string
   exact?: boolean
-  feed: Feed | null
+  feed: SerializedFeed | null
   children?: React.ReactNode
 }
 
 const AuthRoute = ({ component: Component, ...rest }: Props) => {
   const { state } = useWebnative()
-
-  console.log('*state*', state)
 
   // here, return either `Component` for authd users,
   // or a *non authenticated view* of the site
