@@ -4,7 +4,7 @@ import Layout from "../components/Layout"
 import { Feed, Item, SerializedFeed } from "../utils/feed"
 import { path } from "webnative"
 import { FilePath } from "webnative/path"
-import { useWebnative, WebnativeContext } from "../context/webnative"
+import { useWebnative } from "../context/webnative"
 import Trash from "../components/Trash"
 import './Posts.css'
 
@@ -34,6 +34,7 @@ function getImageFromItem (fs, item: Item) {
 
 const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const { fs } = useWebnative()
+  if (!fs || !fs.appPath) return null
   const [images, setImages] = useState({})
   const [delResolving, setDelResolving] = useState<boolean>(false)
 
@@ -59,6 +60,9 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const feedPath = fs.appPath(path.file('feed.json'))
 
   function delItem (item:Item, ev:Event) {
+    if (!fs || !fs.appPath) return
+    if (!item.image) return
+
     ev.preventDefault()
     console.log('rm item', item)
     const newFeed = Feed.removeItem(feed, item)
