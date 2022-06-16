@@ -25,6 +25,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const { fs } = useWebnative()
   const params = match ? match.params : null
 
+  if (!fs || !fs.appPath) return null
   if (!feed) return null
 
   const item = (params && params.postId) ?
@@ -42,7 +43,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
 
   useEffect(() => {
     if (!item || !item.image) return
-    if (!fs) return
+    if (!fs || !fs.appPath) return
     const { filename, type } = item.image
     fs.cat(fs.appPath(path.file(filename)))
       .then(content => {
@@ -97,6 +98,8 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
 
     imgWrite.then(async () => {
       // image has been written, now write the log entry
+      if (!fs || !fs.appPath) return
+
       const newEntry = {
         image: image ?
           {
