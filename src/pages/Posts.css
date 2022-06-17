@@ -39,6 +39,7 @@
 
     & li:first-child {
         border: none;
+        outline: none;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -47,8 +48,6 @@
         margin-bottom: 0.5rem;
         border-radius: 0;
         background-color: white;
-
-
         text-align: center;
     }
 
