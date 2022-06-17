@@ -80,8 +80,6 @@ function App() {
           onFeedChange={handleFeedChange}
         />
         <AuthRoute path="/posts/edit/:postId" component={Editor} feed={feed} />
-          {/* <Route path="/posts/edit/:postId" component={Editor} feed={feed} /> */}
-        {/* </AuthRoute> */}
         <Route path="/login" component={Login} />
         <Route path="/whoami" component={Whoami} />
       </Switch>
