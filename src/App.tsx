@@ -25,7 +25,11 @@ function App() {
     async function loadFeed() {
       if (!username || !fs || !fs.appPath) return
 
+      const testPath = fs.appPath(wn.path.directory('feed'))
+      console.log('test path again', testPath)
+
       const feedPath = fs.appPath(wn.path.file("feed.json"))
+      console.log('feed path', feedPath)
       if (await fs.exists(feedPath)) {
         console.log("✅ feed file exists")
         const content = await fs.read(feedPath as FilePath)

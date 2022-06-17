@@ -32,10 +32,7 @@ const WebnativeProvider: React.FC<Props> = ({
 
   React.useEffect(() => {
     async function getState() {
-      const result = await wn
-        .initialise({
-          permissions,
-        })
+      const result = await wn.initialise({ permissions })
         .catch((err) => {
           setError(err)
           return undefined
