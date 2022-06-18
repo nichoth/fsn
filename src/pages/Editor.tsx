@@ -114,7 +114,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       }
 
       const msgValue = Object.assign({ id: await getId(newEntry) }, newEntry)
-      const newFeed = (item && index) ?
+      const newFeed = (item && (typeof index ==='number')) ?
         await Feed.update(feed, index, msgValue) :
         await Feed.addItem(feed, msgValue)
 
