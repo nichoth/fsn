@@ -14,12 +14,16 @@ const PERMISSIONS = {
   },
 }
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const el = document.getElementById('root')
 
-root.render(
-  <React.StrictMode>
-    <WebnativeProvider permissions={PERMISSIONS}>
-      <App />
-    </WebnativeProvider>
-  </React.StrictMode>
-)
+if (el) {
+  const root = ReactDOM.createRoot(el);
+
+  root.render(
+    <React.StrictMode>
+      <WebnativeProvider permissions={PERMISSIONS}>
+        <App />
+      </WebnativeProvider>
+    </React.StrictMode>
+  )
+}

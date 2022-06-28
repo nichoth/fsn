@@ -18,6 +18,7 @@ function getImageFromItem (fs, item: Item) {
   if (!item.image) return
 
   const { filename, type } = item.image
+  console.log('filename', filename)
   return fs.cat(fs.appPath(path.file(filename)))
     .then((content) => {
       if (!content) return
@@ -27,7 +28,7 @@ function getImageFromItem (fs, item: Item) {
       return url
     })
     .catch(err => {
-      console.log('errrrrr', err)
+      console.log('errrrrr', err, filename)
       return null
     })
 }
