@@ -48,6 +48,11 @@ export interface SerializedFeed {
 }
 
 
+export function Post (opts) : Item {
+  return opts
+}
+
+
 export function Feed (opts): SerializedFeed {
   return Object.assign({}, {
     items: [],

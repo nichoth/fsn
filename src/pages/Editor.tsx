@@ -6,11 +6,13 @@ import * as wn from "webnative"
 import { path } from "webnative"
 import { FilePath } from "webnative/path"
 import { useHistory } from 'react-router-dom';
-import { Feed, SerializedFeed } from "../utils/feed"
+import { /*Feed,*/ Post, SerializedFeed } from "../utils/feed"
 import Button from '../components/button'
 import TextInput from '../components/text-input'
 import { getId } from "../utils/id";
 import './Editor.css'
+// const { getHash } = require('@nichoth/multihash')
+
 
 type EditorProps = {
   feed: SerializedFeed,
@@ -25,45 +27,46 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   const { fs } = useWebnative()
   const params = match ? match.params : null
 
-  if (!fs || !fs.appPath) return null
-  if (!feed) return null
+  // const item = (params && params.postId) ?
+  //   feed.items.find(item => (item.id === params.postId)) :
+  //   null
 
-  const item = (params && params.postId) ?
-    feed.items.find(item => (item.id === params.postId)) :
-    null
+  // const index = item ?
+  //   feed.items.indexOf(item) :
+  //   null
 
-  const index = item ?
-    feed.items.indexOf(item) :
-    null
-
-  console.log('index of what you are editing currently', index)
+  // console.log('index of what you are editing currently', index)
 
   const [resolving, setResolving] = useState<boolean>(false)
   const [previewImage, setPreviewImage] = useState<string | null>(null)
+  const [item, setItem] = useState(null)
 
-  useEffect(() => {
-    if (!item || !item.image) return
-    if (!fs || !fs.appPath) return
-    const { filename, type } = item.image
-    fs.cat(fs.appPath(path.file(filename)))
-      .then(content => {
-        if (!content) return
-        setPreviewImage(URL.createObjectURL(
-          new Blob([content as BlobPart], { type: type || 'image/jpeg' })
-        ))
-      })
-  }, [item])
+  // useEffect(() => {
+  //   if (!item || !item.image) return
+  //   if (!fs || !fs.appPath) return
+  //   const { filename, type } = item.image
+  //   fs.cat(fs.appPath(path.file(filename)))
+  //     .then(content => {
+  //       if (!content) return
+  //       setPreviewImage(URL.createObjectURL(
+  //         new Blob([content as BlobPart], { type: type || 'image/jpeg' })
+  //       ))
+  //     })
+  // }, [item])
 
   const history = useHistory();
 
-  interface FeedData {
-    title: string
-    content: string
-  }
+
+  if (!fs || !fs.appPath) return null
+  if (!feed) return null
+
 
   // -----------------------------------------------------------------------
 
-  function getNameFromFile(file: File) {
+  function getNameFromFile (file: File) {
+
+    // const reader = new FileReader()
+
     const url = URL.createObjectURL(file)
     // blob:http://localhost:3000/83507733-bfb8-42dd-ac10-638e2c28c776
     const slug = url.split("/").pop()
@@ -88,9 +91,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     var filename
     if (image) {
       filename = getNameFromFile(image)
-      // const { type, size } = image
-      const url = URL.createObjectURL(image)
-      console.log("*url*", url)
       imgWrite = fs.write(fs.appPath(wn.path.file(filename)), image)
     } else {
       imgWrite = Promise.resolve(null)
@@ -100,7 +100,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       // image has been written, now write the log entry
       if (!fs || !fs.appPath) return
 
-      const newEntry = {
+      const newEntry = Post({
         image: (image ?
           {
             filename,
@@ -111,15 +111,21 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
         status: 'draft',
         content_text: data.content,
         title: data.title
-      }
+      })
 
       const msgValue = Object.assign({ id: await getId(newEntry) }, newEntry)
-      const newFeed = (item && (typeof index ==='number')) ?
-        await Feed.update(feed, index, msgValue) :
-        await Feed.addItem(feed, msgValue)
 
-      const feedPath = fs.appPath(path.file('feed.json'))
-      return fs.write(feedPath as FilePath, Feed.toString(newFeed))
+      console.log('msg value', msgValue)
+
+      const feedDir = fs.appPath(wn.path.directory('feed'))
+
+      const postPath = path.combine(
+        feedDir,
+        path.file(msgValue.id)
+      )
+
+      return fs.write(postPath as FilePath, JSON.stringify(msgValue))
+      // return fs.write(feedPath as FilePath, Feed.toString(newFeed))
           .then(() => fs.publish())
           .then(update => {
             console.log('updated feed', update)
@@ -131,7 +137,6 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
             setResolving(false)
           })
     })
-
   }
 
   function changer (ev: BaseSyntheticEvent) {

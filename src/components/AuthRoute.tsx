@@ -1,12 +1,13 @@
 import React from "react"
 import { Route, Redirect, RouteComponentProps } from "react-router-dom"
 import { useWebnative } from "../context/webnative"
-import { SerializedFeed } from "../utils/feed"
+import { SerializedFeed, Item } from "../utils/feed"
 
 interface Props {
   component: React.FC<RouteComponentProps>
   path: string
   exact?: boolean
+  items?: Item[] | null,
   feed: SerializedFeed | null
   children?: React.ReactNode
   onFeedChange?: Function
