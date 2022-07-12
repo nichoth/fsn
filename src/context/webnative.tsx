@@ -24,7 +24,7 @@ interface Props {
 const WebnativeProvider: React.FC<Props> = ({
   permissions,
   loading,
-  children,
+  children
 }) => {
   const [state, setState] = React.useState<wn.State>()
   const [error, setError] = React.useState()
@@ -33,9 +33,7 @@ const WebnativeProvider: React.FC<Props> = ({
   React.useEffect(() => {
     async function getState() {
       const result = await wn
-        .initialise({
-          permissions,
-        })
+        .initialise({ permissions })
         .catch((err) => {
           setError(err)
           return undefined

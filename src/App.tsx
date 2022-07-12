@@ -22,9 +22,12 @@ function App() {
   const [feed, setFeed] = useState<SerializedFeed | null>(null)
 
   useEffect(() => {
-    async function loadFeed() {
+    async function loadFeed () {
       if (!username || !fs || !fs.appPath) return
 
+      // the feed.json file should have only metadata about the posts
+      // image, title, status
+      // the actual post content should be in a separate file
       const feedPath = fs.appPath(wn.path.file("feed.json"))
       if (await fs.exists(feedPath)) {
         console.log("✅ feed file exists")

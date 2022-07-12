@@ -37,4 +37,3 @@ When you create a Fission Account, it creates a username and email address in th
 > We also create a Fission Web Native File System (WNFS) attached to your account 
 
 That WNFS is where the data of this app is saved
-

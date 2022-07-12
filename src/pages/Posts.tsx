@@ -39,8 +39,6 @@ const Posts: FunctionComponent<PostProps> = ({ feed, onFeedChange }) => {
   const [images, setImages] = useState({})
   const [delResolving, setDelResolving] = useState<boolean>(false)
 
-  console.log('**posts in posts**', feed)
-
   useEffect(() => {
     // get all the image URLs, then set state
     if (!feed) return
