@@ -119,19 +119,19 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
         await Feed.addItem(feed, msgValue)
 
       const feedPath = fs.appPath(path.file('feed.json'))
-      return fs.write(feedPath as FilePath, Feed.toString(newFeed))
-          .then(() => fs.publish())
-          .then(update => {
-            console.log('updated feed', update)
-            history.push('/')
-            setResolving(false)
-          })
-          .catch(err => {
-            console.log('errrrrrrrrrr', err)
-            setResolving(false)
-          })
-    })
 
+      return fs.write(feedPath as FilePath, Feed.toString(newFeed))
+        .then(() => fs.publish())
+        .then(update => {
+          console.log('updated feed', update)
+          history.push('/')
+          setResolving(false)
+        })
+        .catch(err => {
+          console.log('errrrrrrrrrr', err)
+          setResolving(false)
+        })
+    })
   }
 
   function changer (ev: BaseSyntheticEvent) {

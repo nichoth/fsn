@@ -41,6 +41,7 @@ const WebnativeProvider: React.FC<Props> = ({
 
       setState(result)
     }
+
     getState()
   }, [permissions])
 

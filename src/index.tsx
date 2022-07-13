@@ -11,7 +11,7 @@ const PERMISSIONS = {
   },
   fs: {
     public: [wn.path.directory("Apps", "Fission", "Blog")],
-  },
+  }
 }
 
 const el = document.getElementById('root')
