@@ -3,7 +3,6 @@ import React, { BaseSyntheticEvent, FunctionComponent, useEffect,
 import Layout from "../components/Layout"
 import { useWebnative } from "../context/webnative"
 import * as wn from "webnative"
-import { path } from "webnative"
 import { FilePath } from "webnative/path"
 import { useHistory } from 'react-router-dom';
 import { Feed, SerializedFeed } from "../utils/feed"
@@ -28,6 +27,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
   if (!fs || !fs.appPath) return null
   if (!feed) return null
 
+  // find the item where id === params.id
   const item = (params && params.postId) ?
     feed.items.find(item => (item.id === params.postId)) :
     null
@@ -45,7 +45,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
     if (!item || !item.image) return
     if (!fs || !fs.appPath) return
     const { filename, type } = item.image
-    fs.cat(fs.appPath(path.file(filename)))
+    fs.cat(fs.appPath(wn.path.file(filename)))
       .then(content => {
         if (!content) return
         setPreviewImage(URL.createObjectURL(
@@ -84,13 +84,13 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       return acc
     }, {})
 
-    var imgWrite
-    var filename
+    let imgWrite
+    let filename
     if (image) {
       filename = getNameFromFile(image)
       // const { type, size } = image
-      const url = URL.createObjectURL(image)
-      console.log("*url*", url)
+      // const url = URL.createObjectURL(image)
+      // console.log("*url*", url)
       imgWrite = fs.write(fs.appPath(wn.path.file(filename)), image)
     } else {
       imgWrite = Promise.resolve(null)
@@ -101,7 +101,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       if (!fs || !fs.appPath) return
 
       const newEntry = {
-        image: (image ?
+        image: (image ?  // use the existing image if there is no new image
           {
             filename,
             type: image.type,
@@ -118,7 +118,7 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
         await Feed.update(feed, index, msgValue) :
         await Feed.addItem(feed, msgValue)
 
-      const feedPath = fs.appPath(path.file('feed.json'))
+      const feedPath = fs.appPath(wn.path.file('feed.json'))
 
       return fs.write(feedPath as FilePath, Feed.toString(newFeed))
         .then(() => fs.publish())

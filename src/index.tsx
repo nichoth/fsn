@@ -19,6 +19,11 @@ const el = document.getElementById('root')
 if (el) {
   const root = ReactDOM.createRoot(el);
 
+  const path = wn.path.directory('Apps', 'Fission', 'Blog')
+  console.log('wn path', path) 
+  console.log(typeof path)
+  console.log('dir', path.directory)
+
   root.render(
     <React.StrictMode>
       <WebnativeProvider permissions={PERMISSIONS}>

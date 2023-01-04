@@ -21,7 +21,7 @@ interface Props {
   children: React.ReactNode
 }
 
-const WebnativeProvider: React.FC<Props> = ({
+const WebnativeProvider: React.FunctionComponent<Props> = ({
   permissions,
   loading,
   children
@@ -58,16 +58,16 @@ const WebnativeProvider: React.FC<Props> = ({
   }
 
   switch (state.scenario) {
-  case wn.Scenario.AuthCancelled:
-    // User was redirected to lobby,
-    // but cancelled the authorisation
-    break
+    case wn.Scenario.AuthCancelled:
+      // User was redirected to lobby,
+      // but cancelled the authorisation
+      break
 
-  case wn.Scenario.AuthSucceeded:
-  case wn.Scenario.Continuation:
-    fs = state.fs
-    username = state.username
-    break
+    case wn.Scenario.AuthSucceeded:
+    case wn.Scenario.Continuation:
+      fs = state.fs
+      username = state.username
+      break
   }
 
   return (
