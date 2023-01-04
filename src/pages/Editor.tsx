@@ -56,12 +56,9 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
 
   const history = useHistory();
 
-  interface FeedData {
-    title: string
-    content: string
-  }
 
   // -----------------------------------------------------------------------
+
 
   function getNameFromFile(file: File) {
     const url = URL.createObjectURL(file)
@@ -84,14 +81,14 @@ const Editor: FunctionComponent<EditorProps> = (props) => {
       return acc
     }, {})
 
+
     let imgWrite
     let filename
     if (image) {
       filename = getNameFromFile(image)
-      // const { type, size } = image
-      // const url = URL.createObjectURL(image)
-      // console.log("*url*", url)
-      imgWrite = fs.write(fs.appPath(wn.path.file(filename)), image)
+      const imgPath = fs.appPath(wn.path.file(filename))
+      console.log('**img path**', imgPath)
+      imgWrite = fs.write(imgPath, image)
     } else {
       imgWrite = Promise.resolve(null)
     }
